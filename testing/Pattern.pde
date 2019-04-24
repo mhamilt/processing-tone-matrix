@@ -1,80 +1,96 @@
 class Pattern
 {
   //------------------------------------------------------------------------------------
-  public static final int SIZE = 16;
-  private int radix = 16;
-  private int[] steps = new int[16];
-  String[] binArray = new String[16];
+  public static final int s = 16;
+  private int radix = s;
+  private boolean[][] steps = new boolean[s][s];
+  String[] binArray = new String[s];
   //------------------------------------------------------------------------------------
+  public float[][] mapA = new float[s][s];
+  public float[][] mapB = new float[s][s];
   Pattern()
   {
+    this.clear();
   }
-//------------------------------------------------------------------------------------
-  public void setStepBlock(int x, int y, boolean value)
+  //------------------------------------------------------------------------------------
+  public void setStepN(int step, int note, boolean value)
   {
-    steps[x] = (value) ? (steps[x] | (1 << y)) : steps[x] & ~(1 << y);
+    steps[step][note] = value;
+    mapA[step][note] = ((value) ? -1.0 : 0.0);
   }
-//------------------------------------------------------------------------------------
-  public boolean getStep(int x, int y)
+  //------------------------------------------------------------------------------------
+  public boolean getStep(int step, int note)
   {
-    return 0 != (steps[x] & 1 << y);
+    return steps[step][note];
   }
-//------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------
   public void clear()
   {
-    for (int x = 0; x < 16; x++)
+    for (int step = 0; step < 16; step++)
     {
-      steps[x] = 0;
+      for (int note = 0; note < 16; note++)
+      {
+        setStepBlock(step, note, false);
+      }
     }
   }
   //------------------------------------------------------------------------------------
   public void randomise()
   {
-    for (int x = 0; x < 16; x++)
+    for (int step = 0; step < s; step++)
     {
-      steps[x] = int(random(0,65536));
+      for (int note = 0; note < s; note++)
+      {
+        setRandomBlock();
+      }
     }
   }
-  
-  public void setRandomBlock()
+
+  public void setRandomNote()
   {
-    int x = int(random(16));
-    int y = int(random(16));
-    boolean val = !getStep(x,y);
-    setStepBlock(x,y,val);
+    int step = int(random(16));
+    int note = int(random(16));
+    boolean val = !getStep(step, note);
+    setStepBlock(step, note, val);
   }
-  
+
   public void line()
   {
-    for (int x = 0; x < 16; x++)
+    for (int step = 0; step < s; step++)
     {
-      steps[x] = int(random(0,65536));
+      for (int note = 0; note < s; note++)
+      {
+        if (step == note)
+        {
+          setStepBlock(step, note, true);
+        }
+      }
     }
   }
-//------------------------------------------------------------------------------------
-  public String serialize()
-  {
-    for (int x = 0; x < 16; x++)
-    {
-      binArray[x] = new StringBuilder(binary(steps[x], 16)).reverse().toString();       
-    }
-    return join(binArray,".");
-  }
-//------------------------------------------------------------------------------------
-  public void deserialize(String str)
-  {
-    
-    if (str == null || 16 != str.length())
-    {
-      return;
-    }
-    
-    String[] bin = str.split(".");
 
-    for (int x = 0; x < 16; x++)
-    {
-      steps[x] = parseInt(bin[x], radix);
-    }    
-  }
   //------------------------------------------------------------------------------------
+  public void printMap()
+  {
+    println("\n-----------------------MAPA--------------------------");
+    for (int step = 0; step < 16; step++)
+    {
+      for (int note = 0; note < 16; note++)
+      {
+        print(mapA[step][note]);
+        print(" ");
+      }
+      println();
+    }
+    
+    println("\n-----------------------MAPB--------------------------");
+    for (int step = 0; step < 16; step++)
+    {
+      for (int note = 0; note < 16; note++)
+      {
+        print(mapB[step][note]);
+        print(" ");
+      }
+      println();
+    }
+  }
 }

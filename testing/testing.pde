@@ -14,6 +14,7 @@ private static final int[] note = {96, 93, 91, 89, 86, 84, 81, 79, 77, 74, 72, 6
 Env[] env;
 SinOsc[] sine;
 Delay[] delay;
+Reverb[] reverb;
 float attackTime = 0.004;
 float sustainTime = 0.004;
 float sustainLevel = 0.5;
@@ -29,8 +30,7 @@ int bpm;
 // animation variables
 float[] pulseMap = new float[framesPerBeat]; // coefficients during beat pulse animations
 int pa = 0; // pulse animation index;
-int[][] gridMapA = new int[s][s];
-int[][] gridMapB = new int[s][s];
+float rc = 0.85;
 //------------------------------------------------------------------------------------
 int initialBlockCount = 10;
 void settings()
@@ -52,7 +52,7 @@ void setup()
   sine = new SinOsc[note.length];
   delay = new Delay[note.length];
   env  = new Env[note.length];
-
+  reverb = new Reverb[note.length];
   for (int i = 0; i < note.length; ++i)
   {
     sine[i] = new SinOsc(this);
@@ -63,35 +63,30 @@ void setup()
     delay[i].process(sine[i], 0.1, 0.1);
     delay[i].feedback(0.4);
 
+    reverb[i] = new Reverb(this);    
     env[i] = new Env(this);
   }
   //env = new Env(this);
+  pat.line();
 }
 //------------------------------------------------------------------------------------
 void draw()
-{
+{  
   background(0);
   setPattern();
 
   if (frameCount < initialBlockCount)
-  {
-    pat.setRandomBlock();
+  {    
   } else if ((frameCount % framesPerBeat) == 0)
-  {   
+  {
+    pat.setRandomNote();
     pa = 0;
     playSound();
   }
   pa++;
 }
-//------------------------------------------------------------------------------------
-void mouseClicked()
-{  
-  pat.clear();
-  for (int i = 0; i < initialBlockCount; i++)
-  {
-    pat.setRandomBlock();
-  }
-}
+
+
 //------------------------------------------------------------------------------------
 float midi2Hz(int midiNoteNumber)
 { 
@@ -102,7 +97,7 @@ void playSound()
 {
   if (beat == 0)
   {
-    pat.setRandomBlock();
+    //pat.setRandomBlock();
   }
 
   for (int i = 0; i < 16; i++)
@@ -115,4 +110,15 @@ void playSound()
   }       
   beat++;
   beat %= note.length;
+}
+
+
+int fpb2bpm(int fpb)
+{
+  return (int(frameRate) * 60) / fpb;
+}
+
+int bpm2fpb(int bpm)
+{
+  return (int(frameRate) * 60) / bpm;
 }
