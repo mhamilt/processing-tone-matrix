@@ -13,7 +13,7 @@ class Pattern
     this.clear();
   }
   //------------------------------------------------------------------------------------
-  public void setStepN(int step, int note, boolean value)
+  public void setStepNote(int step, int note, boolean value)
   {
     steps[step][note] = value;
     mapA[step][note] = ((value) ? -1.0 : 0.0);
@@ -30,7 +30,7 @@ class Pattern
     {
       for (int note = 0; note < 16; note++)
       {
-        setStepBlock(step, note, false);
+        setStepNote(step, note, false);
       }
     }
   }
@@ -41,7 +41,7 @@ class Pattern
     {
       for (int note = 0; note < s; note++)
       {
-        setRandomBlock();
+        setRandomNote();
       }
     }
   }
@@ -51,7 +51,7 @@ class Pattern
     int step = int(random(16));
     int note = int(random(16));
     boolean val = !getStep(step, note);
-    setStepBlock(step, note, val);
+    setStepNote(step, note, val);
   }
 
   public void line()
@@ -62,7 +62,7 @@ class Pattern
       {
         if (step == note)
         {
-          setStepBlock(step, note, true);
+          setStepNote(step, note, true);
         }
       }
     }

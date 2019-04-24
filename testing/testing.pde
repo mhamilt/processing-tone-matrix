@@ -14,7 +14,6 @@ private static final int[] note = {96, 93, 91, 89, 86, 84, 81, 79, 77, 74, 72, 6
 Env[] env;
 SinOsc[] sine;
 Delay[] delay;
-Reverb[] reverb;
 float attackTime = 0.004;
 float sustainTime = 0.004;
 float sustainLevel = 0.5;
@@ -24,7 +23,7 @@ Pattern pat = new Pattern();
 //------------------------------------------------------------------------------------
 // beat vars
 int beat = 0;
-int framesPerBeat = 10;
+int framesPerBeat = 20;
 int bpm;
 //------------------------------------------------------------------------------------
 // animation variables
@@ -52,7 +51,7 @@ void setup()
   sine = new SinOsc[note.length];
   delay = new Delay[note.length];
   env  = new Env[note.length];
-  reverb = new Reverb[note.length];
+ 
   for (int i = 0; i < note.length; ++i)
   {
     sine[i] = new SinOsc(this);
@@ -62,12 +61,11 @@ void setup()
     delay[i] = new Delay(this);
     delay[i].process(sine[i], 0.1, 0.1);
     delay[i].feedback(0.4);
-
-    reverb[i] = new Reverb(this);    
+    
     env[i] = new Env(this);
   }
   //env = new Env(this);
-  pat.line();
+  //pat.line();
 }
 //------------------------------------------------------------------------------------
 void draw()
@@ -76,13 +74,24 @@ void draw()
   setPattern();
 
   if (frameCount < initialBlockCount)
-  {    
+  {
   } else if ((frameCount % framesPerBeat) == 0)
   {
-    pat.setRandomNote();
+    if (beat == 0)
+    {
+      pat.setRandomNote();
+    }
+    for (int note = 0; note < 16; ++note)
+    {
+      if (pat.getStep(beat, note))
+      {
+        pat.mapB[beat][note] = -1;
+      }
+    }
     pa = 0;
     playSound();
   }
+
   pa++;
 }
 

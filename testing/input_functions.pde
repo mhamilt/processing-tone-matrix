@@ -55,6 +55,6 @@ void mouseClicked()
   pat.clear();
   for (int i = 0; i < initialBlockCount; i++)
   {
-    pat.setRandomBlock();
+    pat.setRandomNote();
   }
 }

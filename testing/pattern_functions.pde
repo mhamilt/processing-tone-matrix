@@ -1,15 +1,9 @@
 void setPattern()
-{  for (int note = 0; note < 16; ++note)
-    {
-      if (pat.getStep(beat, note))
-      {
-        pat.mapB[beat][note] = -1;
-      }      
-    }
+{  
   for (int step = 0; step < 16; ++step)
   {         
     int stepColor = ((step == beat) && (pa < pulseMap.length)) ? int(pulseMap[pa] * 100.0) : 0;
-    
+
     for (int note = 0; note < 16; ++note)
     { 
       int rip = ripple(step, note);
