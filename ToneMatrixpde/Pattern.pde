@@ -1,53 +1,96 @@
 class Pattern
 {
-  public static final int SIZE = 16;
-  private int radix = 32;
-  private final int[] steps = new int[16];
-
+  //------------------------------------------------------------------------------------
+  public static final int s = 16;
+  private int radix = s;
+  private boolean[][] steps = new boolean[s][s];
+  String[] binArray = new String[s];
+  //------------------------------------------------------------------------------------
+  public float[][] mapA = new float[s][s];
+  public float[][] mapB = new float[s][s];
   Pattern()
   {
+    this.clear();
   }
-
-  public void setStep(int x, int y, boolean value)
+  //------------------------------------------------------------------------------------
+  public void setStepNote(int step, int note, boolean value)
   {
-    steps[x] = (value) ? (steps[x] | (1 << y)) : steps[x] & ~(1 << y);
+    steps[step][note] = value;
+    mapB[step][note] = ((value) ? -1.0 : 0.0);
   }
-
-  public boolean getStep(int x, int y)
+  //------------------------------------------------------------------------------------
+  public boolean getStep(int step, int note)
   {
-    return 0 != (steps[x] & 1 << y);
+    return steps[step][note];
   }
-
+  //------------------------------------------------------------------------------------
   public void clear()
   {
-    for (int x = 0; x < 16; x++)
+    for (int step = 0; step < 16; step++)
     {
-      steps[x] = 0;
+      for (int note = 0; note < 16; note++)
+      {
+        setStepNote(step, note, false);
+      }
+    }
+  }
+  //------------------------------------------------------------------------------------
+  public void randomise()
+  {
+    for (int step = 0; step < s; step++)
+    {
+      for (int note = 0; note < s; note++)
+      {
+        setRandomNote();
+      }
     }
   }
 
-  public String serialize()
+  public void setRandomNote()
   {
-    int[]  = new int[16];
-    for (int x = 0; x < 16; x++)
-    {
-      binArray[x] = steps[x].toString(radix);
-    }
-    return binArray.join(".");
+    int step = int(random(16));
+    int note = int(random(16));
+    boolean val = !getStep(step, note);
+    setStepNote(step, note, val);
   }
 
-  public String deserialize(String string)
+  public void line()
   {
-    if (string == null || 16 != string.length)
+    for (int step = 0; step < s; step++)
     {
-      return null;
+      for (int note = 0; note < s; note++)
+      {
+        if (step == note)
+        {
+          setStepNote(step, note, true);
+        }
+      }
     }
+  }
 
-    String bin = string.split(".");
-
-    for (int x = 0; x < 16; x++)
+  //------------------------------------------------------------------------------------
+  public void printMap()
+  {
+    println("\n-----------------------MAPA--------------------------");
+    for (int step = 0; step < 16; step++)
     {
-      steps[x] = parseInt(bin[x], radix);
+      for (int note = 0; note < 16; note++)
+      {
+        print(mapA[step][note]);
+        print(" ");
+      }
+      println();
+    }
+    
+    println("\n-----------------------MAPB--------------------------");
+    for (int step = 0; step < 16; step++)
+    {
+      for (int note = 0; note < 16; note++)
+      {
+        print(mapB[step][note]);
+        print(" ");
+      }
+      println();
     }
   }
 }

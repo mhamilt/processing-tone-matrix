@@ -2,17 +2,17 @@ void setPattern()
 {  
   for (int step = 0; step < 16; ++step)
   {         
-    int stepColor = ((step == beat) && (pa < pulseMap.length)) ? int(pulseMap[pa] * 100.0) : 0;
+    int stepColor = ((step == beat) && (pa < pulseMap.length)) ? int(pulseMap[pa] * 50.0) : 0;
 
     for (int note = 0; note < 16; ++note)
     { 
       int rip = ripple(step, note);
       if (pat.getStep(step, note))
       {
-        fill(160 + stepColor);
+        fill(205 + stepColor);
       } else
       {         
-        fill(70 + rip);
+        fill(40 + rip);
       }
       rect((step * (width/16))+ spacer, (note * (width/16)) + spacer, dotSize, dotSize);
     }
@@ -26,6 +26,7 @@ void initPulseMap()
   for (int i = 0; i < pulseMap.length; ++i)
   {
     pulseMap[i] = sin(float(i)*PI/float(framesPerBeat));
+    println(pulseMap[i]);
   }
 }
 
@@ -51,7 +52,7 @@ int ripple(int step, int note)
   amp = (amp * 0.5 - pat.mapB[step][note]) * rc;  
   amp = constrain(amp, -1, 1);
   pat.mapB[step][note] = amp;
-  int gray = int(constrain(128.0 * amp, 0.0, 128.0));
+  int gray = int(constrain(158.0 * amp, 0.0, 158.0));
   return gray;
 }
 
