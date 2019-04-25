@@ -40,7 +40,7 @@ void settings()
 void setup()
 {
   background(0);
-  stroke(70);
+  stroke(50);
   fill(255);  
   for (int i = 0; i < 16; i++)
   {   
@@ -64,8 +64,6 @@ void setup()
 
     env[i] = new Env(this);
   }
-  //env = new Env(this);
-  //pat.line();
 }
 //------------------------------------------------------------------------------------
 void draw()
@@ -113,8 +111,7 @@ void playSound()
   for (int i = 0; i < 16; i++)
   {
     if (pat.getStep(beat, i))
-    {
-      //env.play(sine[i], attackTime, sustainTime, sustainLevel, releaseTime);
+    {      
       env[i].play(sine[i], attackTime, sustainTime, sustainLevel, releaseTime);
     }
   }       

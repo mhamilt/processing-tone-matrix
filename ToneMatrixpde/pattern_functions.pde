@@ -25,8 +25,7 @@ void initPulseMap()
 {
   for (int i = 0; i < pulseMap.length; ++i)
   {
-    pulseMap[i] = sin(float(i)*PI/float(framesPerBeat));
-    println(pulseMap[i]);
+    pulseMap[i] = sin(float(i)*PI/float(framesPerBeat));    
   }
 }
 
