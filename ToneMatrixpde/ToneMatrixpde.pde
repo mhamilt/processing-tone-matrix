@@ -1,12 +1,10 @@
 import processing.sound.*;
-
+//------------------------------------------------------------------------------------
 final int s = 16;
-int[][] x = new int[s][s];
 int size = 850;
 //------------------------------------------------------------------------------------
 // Grid Vars
-int spacer = size/(4*s);
-int[] pattern = new int[s]; 
+int spacer = size/(4*s); 
 int dotSize = (size/s)-(spacer);
 //------------------------------------------------------------------------------------
 // Sound Vars
@@ -23,7 +21,7 @@ Pattern pat = new Pattern();
 //------------------------------------------------------------------------------------
 // beat vars
 int beat = 0;
-int framesPerBeat = 20;
+int framesPerBeat = 10;
 int bpm;
 //------------------------------------------------------------------------------------
 // animation variables
@@ -32,6 +30,7 @@ int pa = 0; // pulse animation index;
 float rc = 0.85;
 //------------------------------------------------------------------------------------
 int initialBlockCount = 10;
+boolean currentDragState = true;
 void settings()
 {
   size(size+spacer, size+spacer);
@@ -42,10 +41,6 @@ void setup()
   background(0);
   stroke(50);
   fill(255);  
-  for (int i = 0; i < 16; i++)
-  {   
-    pattern[i] = (1 << i);
-  }
 
   initPulseMap();
   sine = new SinOsc[note.length];
@@ -73,12 +68,13 @@ void draw()
 
   if (frameCount < initialBlockCount)
   {
-  } else if ((frameCount % framesPerBeat) == 0)
+  } 
+  else if ((frameCount % framesPerBeat) == 0)
   {
-    if (beat == 0)
-    {
-      pat.setRandomNote();
-    }
+    //if (beat == 0)
+    //{
+    //  pat.setRandomNote();
+    //}
     for (int note = 0; note < 16; ++note)
     {
       if (pat.getStep(beat, note))

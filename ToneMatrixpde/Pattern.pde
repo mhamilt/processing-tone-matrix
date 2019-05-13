@@ -18,6 +18,13 @@ class Pattern
     steps[step][note] = value;
     mapB[step][note] = ((value) ? -1.0 : 0.0);
   }
+  
+  public void setStepNote(int step, int note)
+  {
+    boolean value = !getStep(step, note);
+    steps[step][note] = value;
+    mapB[step][note] = ((value) ? -1.0 : 0.0);
+  }
   //------------------------------------------------------------------------------------
   public boolean getStep(int step, int note)
   {
@@ -49,9 +56,8 @@ class Pattern
   public void setRandomNote()
   {
     int step = int(random(16));
-    int note = int(random(16));
-    boolean val = !getStep(step, note);
-    setStepNote(step, note, val);
+    int note = int(random(16));    
+    setStepNote(step, note);
   }
 
   public void line()
