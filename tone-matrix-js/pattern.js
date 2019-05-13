@@ -1,96 +1,97 @@
 class Pattern
 {
-  //------------------------------------------------------------------------------------
-  public var s = 16;
-  private var radix = s;
-  private var[] steps = new Array(s)[s];
-  var[] binArray = new var[s];
-  //------------------------------------------------------------------------------------
-  public var[] mapA = new Array(s)[s];
-  public var[] mapB = new Array(s)[s];
-  Pattern()
+  constructor()
   {
+    //----------------------------------------------------------------------------
+    this.s = 16;
+    this.radix = this.s;
+    this.steps = new Array(this.s);
+    this.mapA = new Array(this.s);
+    this.mapB = new Array(this.s);
+    for (var i = 0; i < this.s; i++)
+    {
+      this.steps[i] = new Array(this.s);
+      this.mapA[i] = new Array(this.s);
+      this.mapB[i] = new Array(this.s);
+    }
+    this.binArray = new Array(this.s)
     this.clear();
   }
-  //------------------------------------------------------------------------------------
-  public function setStepNote(var step, var note, var value)
+  //----------------------------------------------------------------------------
+
+  setStepNote(step, note, value)
   {
-    steps[step][note] = value;
-    mapB[step][note] = ((value) ? -1.0 : 0.0);
+    this.steps[step][note] = value;
+    this.mapB[step][note] = ((value) ? -1.0 : 0.0);
   }
-  //------------------------------------------------------------------------------------
-  public var getStep(var step, var note)
+  //----------------------------------------------------------------------------
+  getStep(step, note)
   {
-    return steps[step][note];
+    return this.steps[step][note];
   }
-  //------------------------------------------------------------------------------------
-  public function clear()
+  //----------------------------------------------------------------------------
+  clear()
   {
     for (var step = 0; step < 16; step++)
     {
       for (var note = 0; note < 16; note++)
       {
-        setStepNote(step, note, false);
+        this.setStepNote(step, note, false);
       }
     }
   }
-  //------------------------------------------------------------------------------------
-  public function randomise()
+  //----------------------------------------------------------------------------
+  randomise()
   {
-    for (var step = 0; step < s; step++)
+    for (var step = 0; step < this.s; step++)
     {
-      for (var note = 0; note < s; note++)
+      for (var note = 0; note < this.s; note++)
       {
-        setRandomNote();
+        this.setRandomNote();
       }
     }
   }
-
-  public function setRandomNote()
+  //----------------------------------------------------------------------------
+  setRandomNote()
   {
-    var step = var(random(16));
-    var note = var(random(16));
-    var val = !getStep(step, note);
-    setStepNote(step, note, val);
+    var step = Math.floor((Math.random() * 16));
+    var note = Math.floor((Math.random() * 16));
+    var val = !this.getStep(step, note);
+    this.setStepNote(step, note, val);
   }
-
-  public function line()
+  //----------------------------------------------------------------------------
+  line()
   {
-    for (var step = 0; step < s; step++)
+    for (var step = 0; step < this.s; step++)
     {
-      for (var note = 0; note < s; note++)
+      for (var note = 0; note < this.s; note++)
       {
         if (step == note)
         {
-          setStepNote(step, note, true);
+          this.setStepNote(step, note, true);
         }
       }
     }
   }
-
-  //------------------------------------------------------------------------------------
-  public function prvarMap()
+  //----------------------------------------------------------------------------
+  draw()
   {
-    prvarln("\n-----------------------MAPA--------------------------");
-    for (var step = 0; step < 16; step++)
+    for (var step = 0; step < 16; ++step)
     {
-      for (var note = 0; note < 16; note++)
+      var stepColor = (step == beat) ? 55 : 0;
+      for (var note = 0; note < 16; ++note)
       {
-        prvar(mapA[step][note]);
-        prvar(" ");
-      }
-      prvarln();
-    }
+        if (this.getStep(step, note))
+        {
+          fill(180 + stepColor);
+        }
+        else
+        {
+          fill(40);
+        }
 
-    prvarln("\n-----------------------MAPB--------------------------");
-    for (var step = 0; step < 16; step++)
-    {
-      for (var note = 0; note < 16; note++)
-      {
-        prvar(mapB[step][note]);
-        prvar(" ");
+        rect((step * (screensize / 16)) + spacer, (note * (screensize / 16)) + spacer, dotSize, dotSize);
       }
-      prvarln();
     }
   }
 }

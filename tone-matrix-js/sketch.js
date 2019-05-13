@@ -19,28 +19,33 @@ var dotSize = (screensize / s) - (spacer);
 var beat = 0;
 let framesPerBeat = 8;
 //------------------------------------------------------------------------------
+var pat = new Pattern();
+//------------------------------------------------------------------------------
 function midi2Hz(midiNoteNumber)
 {
   return Math.pow(2, (midiNoteNumber - 69) / 12.0) * 440.0;
 }
 //------------------------------------------------------------------------------
-function playNote(i)
+function playNote(step, note)
 {
-  osc_bank[i].amp(gain, attack);
-  osc_bank[i].amp(gain * sustain, decay);
-  osc_bank[i].amp(0.0, release);
+  osc_bank[step][note].amp(gain, attack);
+  osc_bank[step][note].amp(gain * sustain, decay);
+  osc_bank[step][note].amp(0.0, release);
 }
 
 function playSound()
 {
   if (beat == 0)
   {
-    //pat.setRandomBlock();
+    // do something on every sequence loop
   }
 
   for (var i = 0; i < 16; i++)
   {
-
+    if (pat.getStep(beat, i))
+    {
+      playNote(beat, i);
+    }
   }
 }
 //------------------------------------------------------------------------------
@@ -49,13 +54,17 @@ function setup()
   createCanvas(screensize + spacer, screensize + spacer);
   background(0);
   setPattern();
-  for (var i = 0; i < note.length; i++)
+  for (var j = 0; j < s; j++)
   {
-    osc_bank.push(new p5.Oscillator());
-    osc_bank[i].setType('sine');
-    osc_bank[i].freq(midi2Hz(note[i]));
-    osc_bank[i].amp(0);
-    osc_bank[i].start();
+    osc_bank.push([]);
+    for (var i = 0; i < s; i++)
+    {
+      osc_bank[j].push(new p5.Oscillator());
+      osc_bank[j][i].setType('sine');
+      osc_bank[j][i].freq(midi2Hz(note[i]));
+      osc_bank[j][i].amp(0);
+      osc_bank[j][i].start();
+    }
   }
 }
 
@@ -63,14 +72,21 @@ function setup()
 
 function draw()
 {
+  setPattern();
   if ((frameCount % framesPerBeat) == 0)
   {
-    // playSound();
-  playNote(beat);
-  playNote(s - beat - 1);
-  beat++;
-  beat %= note.length;
+    playSound();
+    beat++;
+    beat %= note.length;
   }
 }
 
 //------------------------------------------------------------------------------
+
+
+function mouseDragged()
+{
+  var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
+  var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
+  pat.setStepNote(note, beat, true);
+}
