@@ -4,7 +4,7 @@ class Pattern
   {
     //----------------------------------------------------------------------------
     this.s = 16;
-    this.radix = this.s;
+    this.ripple = new Ripple(s);
     this.steps = new Array(this.s);
     this.mapA = new Array(this.s);
     this.mapB = new Array(this.s);
@@ -18,11 +18,10 @@ class Pattern
     this.clear();
   }
   //----------------------------------------------------------------------------
-
   setStepNote(step, note, value)
   {
     this.steps[step][note] = value;
-    this.mapB[step][note] = ((value) ? -1.0 : 0.0);
+    this.ripple.setMapPoint(step, note, value);
   }
   //----------------------------------------------------------------------------
   getStep(step, note)
@@ -76,21 +75,46 @@ class Pattern
   //----------------------------------------------------------------------------
   draw()
   {
+    if ((frameCount % framesPerBeat) == 0)
+    {
+      this.updateRipple();
+    }
+
     for (var step = 0; step < 16; ++step)
     {
       var stepColor = (step == beat) ? 55 : 0;
       for (var note = 0; note < 16; ++note)
       {
+        var x = this.ripple.update(step, note);
         if (this.getStep(step, note))
         {
+
           fill(180 + stepColor);
         }
         else
         {
-          fill(40);
+
+          fill(40 + x);
         }
 
         rect((step * (screensize / 16)) + spacer, (note * (screensize / 16)) + spacer, dotSize, dotSize);
+        if (this.getStep(step, note) && (step == beat))
+        {
+          // dotSize + (spacer * 4)
+          image(glow_rect, (step * (screensize / 16)) - spacer, (note * (screensize / 16)) - spacer);
+        }
+      }
+    }
+    this.ripple.swap();
+  }
+  //----------------------------------------------------------------------------
+  updateRipple() // do once per beat
+  {
+    for (var note = 0; note < 16; ++note)
+    {
+      if (pat.getStep(beat, note))
+      {
+        this.ripple.mapB[beat][note] = -1;
       }
     }
   }

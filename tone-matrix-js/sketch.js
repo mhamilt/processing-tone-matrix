@@ -7,7 +7,7 @@ var decay = 0.001;
 var sustain = 0.75;
 var release = 0.7;
 var osc_bank = [];
-var delay= new p5.Delay();
+var delay = new p5.Delay();
 //------------------------------------------------------------------------------
 var s = note.length;
 var screensize = 380;
@@ -21,6 +21,9 @@ var beat = 0;
 let framesPerBeat = 8;
 //------------------------------------------------------------------------------
 var pat = new Pattern();
+var glow_rect;
+var glow_size = dotSize + (spacer * 4);
+var glow_rect_size = (dotSize + spacer) / 1.1;
 var drawLock = false;
 var drawStyle; // are we adding or removing blocks
 //------------------------------------------------------------------------------
@@ -52,11 +55,22 @@ function playSound()
     }
   }
 }
-
 //------------------------------------------------------------------------------
 function setup()
 {
   var canvas = createCanvas(screensize + spacer, screensize + spacer);
+
+  glow_rect = createGraphics(glow_size, glow_size);
+  glow_rect.background(0, 0);
+  // glow_rect.stroke(255, 255);
+  glow_rect.fill(255, 100);
+  glow_rect.rectMode(CENTER);
+  glow_rect.rect(glow_size/ 2, glow_size/ 2, glow_rect_size, glow_rect_size);
+  glow_rect.filter(BLUR, 2);
+  glow_rect.loadPixels();
+  glow_rect.updatePixels();
+  glow_rect.filter(DILATE);
+
   background(0);
   canvas.parent('jumbo-canvas');
   for (var j = 0; j < s; j++)
@@ -78,6 +92,7 @@ function setup()
 
 function draw()
 {
+  background(0);
   pat.draw();
   if ((frameCount % framesPerBeat) == 0)
   {
@@ -90,6 +105,7 @@ function draw()
 //------------------------------------------------------------------------------
 function mousePressed()
 {
+  getAudioContext().resume()
   var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
   var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
 
