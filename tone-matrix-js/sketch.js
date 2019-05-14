@@ -21,7 +21,7 @@ let framesPerBeat = 8;
 //------------------------------------------------------------------------------
 var pat = new Pattern();
 var drawLock = false;
-var drawStyle;        // are we adding or removing blocks
+var drawStyle; // are we adding or removing blocks
 //------------------------------------------------------------------------------
 function midi2Hz(midiNoteNumber)
 {
@@ -55,10 +55,20 @@ function playSound()
 //------------------------------------------------------------------------------
 function setup()
 {
+<<<<<<< HEAD
     var canvas = createCanvas(screensize + spacer, screensize + spacer);
     background(0);
     canvas.parent('jumbo-canvas');
     for (var j = 0; j < s; j++)
+=======
+  var canvas = createCanvas(screensize + spacer, screensize + spacer);
+  background(0);
+  canvas.parent('jumbo-canvas');
+  for (var j = 0; j < s; j++)
+  {
+    osc_bank.push([]);
+    for (var i = 0; i < s; i++)
+>>>>>>> master
     {
         osc_bank.push([]);
         for (var i = 0; i < s; i++)
@@ -86,18 +96,26 @@ function draw()
 }
 
 //------------------------------------------------------------------------------
-function mouseDragged()
+function mousePressed()
 {
     var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
     var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
 
-    if (!drawLock)
-    {
-        drawStyle = !pat.getStep(note, beat);
-        drawLock = true;
-    }
+  if (!drawLock)
+  {
+    drawStyle = !pat.getStep(note, beat);
+    drawLock = true;
+  }
 
     pat.setStepNote(note, beat, drawStyle);
+}
+
+function mouseDragged()
+{
+  var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
+  var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
+
+  pat.setStepNote(note, beat, drawStyle);
 }
 
 function mouseReleased()
