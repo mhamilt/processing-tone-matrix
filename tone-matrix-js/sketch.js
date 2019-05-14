@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------
 //osc vars
 let note = [96, 93, 91, 89, 86, 84, 81, 79, 77, 74, 72, 69, 67, 65, 62, 60];
-var gain = 0.5;
+var gain = 0.3;
 var attack = 0.001;
-var decay = 0.001;
-var sustain = 0.75;
+var decay = 0.002;
+var sustain = 0.707;
 var release = 0.2;
 var osc_bank = [];
 var delay = new p5.Delay();
@@ -63,10 +63,10 @@ function setup()
   glow_rect = createGraphics(glow_size, glow_size);
   glow_rect.background(0, 0);
   // glow_rect.stroke(255, 255);
-  glow_rect.fill(255, 100);
+  glow_rect.fill(255, 255);
   glow_rect.rectMode(CENTER);
   glow_rect.rect(glow_size/ 2, glow_size/ 2, glow_rect_size, glow_rect_size);
-  glow_rect.filter(BLUR, 2);
+  glow_rect.filter(BLUR, 4);
   glow_rect.loadPixels();
   glow_rect.updatePixels();
   glow_rect.filter(DILATE);
@@ -83,7 +83,7 @@ function setup()
       osc_bank[j][i].freq(midi2Hz(note[i]));
       osc_bank[j][i].amp(0);
       osc_bank[j][i].start();
-      delay.process(osc_bank[j][i], .5, .2, 2300);
+      delay.process(osc_bank[j][i], .2, .2, 2300);
     }
   }
 }
