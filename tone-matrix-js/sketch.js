@@ -20,6 +20,8 @@ var beat = 0;
 let framesPerBeat = 8;
 //------------------------------------------------------------------------------
 var pat = new Pattern();
+var drawLock = false;
+var drawStyle;        // are we adding or removing blocks
 //------------------------------------------------------------------------------
 function midi2Hz(midiNoteNumber)
 {
@@ -85,5 +87,30 @@ function mouseDragged()
 {
   var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
   var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
-  pat.setStepNote(note, beat, true);
+
+  if(!drawLock)
+  {
+    drawStyle = !pat.getStep(note, beat);
+    drawLock = true;
+  }
+
+  pat.setStepNote(note, beat, drawStyle);
+}
+
+function mouseReleased()
+{
+  drawLock = false;
+}
+//------------------------------------------------------------------------------
+function keyPressed()
+{
+  switch (key)
+  {
+    case ' ':
+      pat.clear();
+      break;
+    default:
+      return false;
+
+  }
 }
