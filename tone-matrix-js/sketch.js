@@ -62,10 +62,9 @@ function setup()
 
   glow_rect = createGraphics(glow_size, glow_size);
   glow_rect.background(0, 0);
-  // glow_rect.stroke(255, 255);
   glow_rect.fill(255, 255);
   glow_rect.rectMode(CENTER);
-  glow_rect.rect(glow_size/ 2, glow_size/ 2, glow_rect_size, glow_rect_size);
+  glow_rect.rect(glow_size / 2, glow_size / 2, glow_rect_size, glow_rect_size);
   glow_rect.filter(BLUR, 4);
   glow_rect.loadPixels();
   glow_rect.updatePixels();
@@ -105,25 +104,41 @@ function draw()
 //------------------------------------------------------------------------------
 function mousePressed()
 {
-  getAudioContext().resume()
-  var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
-  var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
-
-  if (!drawLock)
+  if (
+    mouseX > 0 &&
+    mouseX < width &&
+    mouseY > 0 &&
+    mouseY < height
+  )
   {
-    drawStyle = !pat.getStep(note, beat);
-    drawLock = true;
-  }
+    getAudioContext().resume()
+    var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
+    var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
 
-  pat.setStepNote(note, beat, drawStyle);
+    if (!drawLock)
+    {
+      drawStyle = !pat.getStep(note, beat);
+      drawLock = true;
+    }
+
+    pat.setStepNote(note, beat, drawStyle);
+  }
 }
 
 function mouseDragged()
 {
-  var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
-  var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
+  if (
+    mouseX > 0 &&
+    mouseX < width &&
+    mouseY > 0 &&
+    mouseY < height
+  )
+  {
+    var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
+    var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
 
-  pat.setStepNote(note, beat, drawStyle);
+    pat.setStepNote(note, beat, drawStyle);
+  }
 }
 
 function mouseReleased()
