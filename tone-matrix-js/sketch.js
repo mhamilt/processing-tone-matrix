@@ -53,7 +53,7 @@ function setup()
 {
   createCanvas(screensize + spacer, screensize + spacer);
   background(0);
-  setPattern();
+
   for (var j = 0; j < s; j++)
   {
     osc_bank.push([]);
@@ -72,7 +72,7 @@ function setup()
 
 function draw()
 {
-  setPattern();
+  pat.draw();
   if ((frameCount % framesPerBeat) == 0)
   {
     playSound();
@@ -80,10 +80,7 @@ function draw()
     beat %= note.length;
   }
 }
-
 //------------------------------------------------------------------------------
-
-
 function mouseDragged()
 {
   var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
