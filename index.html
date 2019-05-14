@@ -1,18 +1,52 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
+<head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.sound.min.js"></script>
     <script src="tone-matrix-js/pattern.js"></script>
+    <!--<link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
 
-  </head>
+</head>
 
-  <body>
-    <script src="tone-matrix-js/sketch.js"></script>
-  </body>
+<body>
+<nav class="navbar navbar-dark navbar-full bg-inverse" style="">
+    <a class="navbar-brand" href="#">ToneMatrix.js</a>
+    <ul class="nav navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link"
+               href="https://github.com/mhamilt/processing-tone-matrix">GitHub</a>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <div id="jumbo-canvas" class="jumbotron">
+        <h1>Tone Matrix</h1>
+        <p class="lead">A Javascript version of the <a
+                href="https://tonematrix.audiotool.com">Andre Michel
+            ToneMatrix</a> which I had fun with about 10 years ago. I haven't
+            seen a pure Javascript implementation of the tone matrix yet, so
+            here you go.
+        </p>
+        <h2>Browser</h2>
+        <p class="initialism">
+            Web Audio is still fairly new, so some functionality may not be
+            available in all browsers. An up to date Chrome and Firefox should
+            be fine.
+        </p>
+        <hr/>
+
+        <script src="tone-matrix-js/sketch.js"></script>
+    </div>
+</div>
+</body>
 
 </html>
