@@ -55,12 +55,6 @@ function playSound()
 //------------------------------------------------------------------------------
 function setup()
 {
-<<<<<<< HEAD
-    var canvas = createCanvas(screensize + spacer, screensize + spacer);
-    background(0);
-    canvas.parent('jumbo-canvas');
-    for (var j = 0; j < s; j++)
-=======
   var canvas = createCanvas(screensize + spacer, screensize + spacer);
   background(0);
   canvas.parent('jumbo-canvas');
@@ -68,7 +62,6 @@ function setup()
   {
     osc_bank.push([]);
     for (var i = 0; i < s; i++)
->>>>>>> master
     {
         osc_bank.push([]);
         for (var i = 0; i < s; i++)
