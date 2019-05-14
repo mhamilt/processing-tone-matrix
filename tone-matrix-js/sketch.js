@@ -5,7 +5,7 @@ var gain = 0.5;
 var attack = 0.001;
 var decay = 0.001;
 var sustain = 0.75;
-var release = 0.7;
+var release = 0.2;
 var osc_bank = [];
 var delay = new p5.Delay();
 //------------------------------------------------------------------------------
