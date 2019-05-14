@@ -7,6 +7,7 @@ var decay = 0.001;
 var sustain = 0.75;
 var release = 0.7;
 var osc_bank = [];
+var delay= new p5.Delay();
 //------------------------------------------------------------------------------
 var s = note.length;
 var screensize = 380;
@@ -68,6 +69,7 @@ function setup()
       osc_bank[j][i].freq(midi2Hz(note[i]));
       osc_bank[j][i].amp(0);
       osc_bank[j][i].start();
+      delay.process(osc_bank[j][i], .5, .2, 2300);
     }
   }
 }
