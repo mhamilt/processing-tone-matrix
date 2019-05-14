@@ -1,60 +1,60 @@
+
+//------------------------------------------------------------------------------
+function mousePressed()
+{
+  if (
+    mouseX > 0 &&
+    mouseX < width &&
+    mouseY > 0 &&
+    mouseY < height
+  )
+  {
+    getAudioContext().resume()
+    var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
+    var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
+
+    if (!drawLock)
+    {
+      drawStyle = !pat.getStep(note, beat);
+      drawLock = true;
+    }
+
+    pat.setStepNote(note, beat, drawStyle);
+  }
+}
+//------------------------------------------------------------------------------
+function mouseDragged()
+{
+  if (
+    mouseX > 0 &&
+    mouseX < width &&
+    mouseY > 0 &&
+    mouseY < height
+  )
+  {
+    var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
+    var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
+
+    pat.setStepNote(note, beat, drawStyle);
+  }
+}
+//------------------------------------------------------------------------------
+
+function mouseReleased()
+{
+  drawLock = false;
+}
+
+//------------------------------------------------------------------------------
 function keyPressed()
 {
   switch (key)
   {
-    case 'b':
-    case 'B':
-    {
-      pat.prvarMap();
-      break;
-    }
     case ' ':
-    {
       pat.clear();
       break;
-    }
-    case 's':
-    {
-      rc -= 0.05;
-      rc = constrain(rc, 0.05, 0.85);
-      break;
-    }
-    case 'w':
-    {
-      rc += 0.05;
-      rc = constrain(rc, 0.05, 0.85);
-      break;
-    }
     default:
-    {
-      switch (keyCode)
-      {
-        case UP:
-        {
-          framesPerBeat--;
-          framesPerBeat = (framesPerBeat <= 5) ? 5 : framesPerBeat;
-          prvarln(framesPerBeat);
-          break;
-        }
-        case DOWN:
-        {
-          framesPerBeat++;
-          framesPerBeat = (framesPerBeat >= 25) ? 25 : framesPerBeat;
-          prvarln(framesPerBeat);
-          break;
-        }
-      }
-    }
-  }
-}
+      return false;
 
-//------------------------------------------------------------------------------------
-
-function mouseClicked()
-{
-  pat.clear();
-  for (var i = 0; i < initialBlockCount; i++)
-  {
-    pat.setRandomNote();
   }
 }
