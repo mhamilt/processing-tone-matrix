@@ -22,8 +22,7 @@ class Pattern
   public void setStepNote(int step, int note)
   {
     boolean value = !getStep(step, note);
-    steps[step][note] = value;
-    mapB[step][note] = ((value) ? -1.0 : 0.0);
+    this.setStepNote(step, note, value);    
   }
   //------------------------------------------------------------------------------------
   public boolean getStep(int step, int note)

@@ -21,7 +21,7 @@ Pattern pat = new Pattern();
 //------------------------------------------------------------------------------------
 // beat vars
 int beat = 0;
-int framesPerBeat = 10;
+int framesPerBeat = 8;
 int bpm;
 //------------------------------------------------------------------------------------
 // animation variables
@@ -65,11 +65,7 @@ void draw()
 {  
   background(0);
   setPattern();
-
-  if (frameCount < initialBlockCount)
-  {
-  } 
-  else if ((frameCount % framesPerBeat) == 0)
+  if (!boolean(frameCount % framesPerBeat))
   {
     //if (beat == 0)
     //{
