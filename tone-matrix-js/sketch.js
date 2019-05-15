@@ -58,9 +58,9 @@ function playSound()
 //------------------------------------------------------------------------------
 function setup()
 {
-  var canvas = createCanvas(screensize + spacer, screensize + spacer);
+  var canvas = createCanvas(screensize + spacer, screensize + spacer, P2D);
 
-  glow_rect = createGraphics(glow_size, glow_size);
+  glow_rect = createGraphics(glow_size, glow_size, P2D);
   glow_rect.background(0, 0);
   glow_rect.fill(255, 255);
   glow_rect.rectMode(CENTER);
