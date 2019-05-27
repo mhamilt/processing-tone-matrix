@@ -1,9 +1,9 @@
 class Pattern
 {
-  constructor()
+  constructor(s)
   {
     //----------------------------------------------------------------------------
-    this.s = 16;
+    this.s = s;
     this.ripple = new Ripple(s);
     this.steps = new Array(this.s);
     this.mapA = new Array(this.s);
@@ -31,9 +31,9 @@ class Pattern
   //----------------------------------------------------------------------------
   clear()
   {
-    for (var step = 0; step < 16; step++)
+    for (var step = 0; step < this.s; step++)
     {
-      for (var note = 0; note < 16; note++)
+      for (var note = 0; note < this.s; note++)
       {
         this.setStepNote(step, note, false);
       }
@@ -53,8 +53,8 @@ class Pattern
   //----------------------------------------------------------------------------
   setRandomNote()
   {
-    var step = Math.floor((Math.random() * 16));
-    var note = Math.floor((Math.random() * 16));
+    var step = Math.floor((Math.random() * this.s));
+    var note = Math.floor((Math.random() * this.s));
     var val = !this.getStep(step, note);
     this.setStepNote(step, note, val);
   }
@@ -80,10 +80,10 @@ class Pattern
       this.updateRipple();
     }
 
-    for (var step = 0; step < 16; ++step)
+    for (var step = 0; step < this.s; ++step)
     {
       var stepColor = (step == beat) ? 55 : 0;
-      for (var note = 0; note < 16; ++note)
+      for (var note = 0; note < this.s; ++note)
       {
         var x = this.ripple.update(step, note);
         if (this.getStep(step, note))
@@ -97,11 +97,11 @@ class Pattern
           fill(40 + x);
         }
 
-        rect((step * (screensize / 16)) + spacer, (note * (screensize / 16)) + spacer, dotSize, dotSize);
+        rect((step * (screensize / this.s)) + spacer, (note * (screensize / this.s)) + spacer, dotSize, dotSize);
         if (this.getStep(step, note) && (step == beat))
         {
           // dotSize + (spacer * 4)
-          image(glow_rect, (step * (screensize / 16)) - spacer, (note * (screensize / 16)) - spacer);
+          image(glow_rect, (step * (screensize / this.s)) - spacer, (note * (screensize / this.s)) - spacer);
         }
       }
     }
@@ -110,7 +110,7 @@ class Pattern
   //----------------------------------------------------------------------------
   updateRipple() // do once per beat
   {
-    for (var note = 0; note < 16; ++note)
+    for (var note = 0; note < this.s; ++note)
     {
       if (pat.getStep(beat, note))
       {

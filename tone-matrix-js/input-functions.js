@@ -9,7 +9,10 @@ function mousePressed()
     mouseY < height
   )
   {
-    getAudioContext().resume()
+    if (getAudioContext().state !== 'running')
+    {
+      getAudioContext().resume();
+    }      
     var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
     var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
 
@@ -20,6 +23,14 @@ function mousePressed()
     }
 
     pat.setStepNote(note, beat, drawStyle);
+  }
+}
+
+function touchStarted()
+{
+  if (getAudioContext().state !== 'running')
+  {
+    getAudioContext().resume();
   }
 }
 //------------------------------------------------------------------------------

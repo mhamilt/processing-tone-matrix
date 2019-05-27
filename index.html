@@ -2,12 +2,14 @@
 <html>
 
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.sound.min.js"></script>
     <script src="tone-matrix-js/ripple.js"></script>
     <script src="tone-matrix-js/pattern.js"></script>
     <script src="tone-matrix-js/input-functions.js"></script>
+    <script src="tone-matrix-js/sketch.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <meta charset="utf-8" />
@@ -38,9 +40,10 @@
           be fine.
         </p>
         <hr />
-        <script src="tone-matrix-js/sketch.js"></script>
+        <div id="sketch-holder" align="center">
+          <!-- Our sketch will go here! -->
+        </div>
       </div>
-    </div>
   </body>
 
 </html>

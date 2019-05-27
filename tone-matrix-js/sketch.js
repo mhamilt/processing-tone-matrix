@@ -10,7 +10,7 @@ var osc_bank = [];
 var delay = new p5.Delay();
 //------------------------------------------------------------------------------
 var s = note.length;
-var screensize = 380;
+var screensize = 3 * ($(window).height() < $(window).width() ? $(window).height() : $(window).width()) / 5;
 //------------------------------------------------------------------------------
 // Grid Vars
 var spacer = screensize / (4 * s);
@@ -20,12 +20,22 @@ var dotSize = (screensize / s) - (spacer);
 var beat = 0;
 let framesPerBeat = 8;
 //------------------------------------------------------------------------------
-var pat = new Pattern();
+var pat = new Pattern(s);
 var glow_rect;
 var glow_size = dotSize + (spacer * 4);
 var glow_rect_size = (dotSize + spacer) / 1.1;
 var drawLock = false;
 var drawStyle; // are we adding or removing blocks
+//------------------------------------------------------------------------------
+function windowResized()
+{
+  screensize = 3 * (windowWidth < windowHeight ? windowWidth : windowHeight) / 5;
+  spacer = screensize / (4 * s);
+  dotSize = (screensize / s) - (spacer);
+  glow_size = dotSize + (spacer * 4);
+  glow_rect_size = (dotSize + spacer) / 1.1;
+  resizeCanvas(screensize, screensize);
+}
 //------------------------------------------------------------------------------
 function midi2Hz(midiNoteNumber)
 {
@@ -47,7 +57,7 @@ function playSound()
     // do something on every sequence loop
   }
 
-  for (var i = 0; i < 16; i++)
+  for (var i = 0; i < s; i++)
   {
     if (pat.getStep(beat, i))
     {
@@ -59,6 +69,7 @@ function playSound()
 function setup()
 {
   var canvas = createCanvas(screensize + spacer, screensize + spacer, P2D);
+  canvas.parent('sketch-holder');
 
   glow_rect = createGraphics(glow_size, glow_size, P2D);
   glow_rect.background(0, 0);
@@ -71,7 +82,7 @@ function setup()
   glow_rect.filter(DILATE);
 
   background(0);
-  canvas.parent('jumbo-canvas');
+
   for (var j = 0; j < s; j++)
   {
     osc_bank.push([]);
