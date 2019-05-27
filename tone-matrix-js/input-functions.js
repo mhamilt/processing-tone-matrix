@@ -12,7 +12,7 @@ function mousePressed()
     if (getAudioContext().state !== 'running')
     {
       getAudioContext().resume();
-    }      
+    }
     var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
     var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
 
@@ -31,6 +31,24 @@ function touchStarted()
   if (getAudioContext().state !== 'running')
   {
     getAudioContext().resume();
+  }
+  if (
+    mouseX > 0 &&
+    mouseX < width &&
+    mouseY > 0 &&
+    mouseY < height
+  )
+  {
+    var note = Math.floor(constrain((mouseX * s) / width, 0, s - 1));
+    var beat = Math.floor(constrain((mouseY * s) / height, 0, s - 1));
+
+    if (!drawLock)
+    {
+      drawStyle = !pat.getStep(note, beat);
+      drawLock = true;
+    }
+
+    pat.setStepNote(note, beat, drawStyle);
   }
 }
 //------------------------------------------------------------------------------
