@@ -50,8 +50,8 @@ class Ripple
     }
     amp = (amp * 0.5 - this.mapB[step][note]) * this.rc;
     amp = constrain(amp, -1, 1);
-    this.mapB[step][note] = amp;
-    var gray = Math.floor(constrain(158.0 * amp, 0.0, 158.0));
+    this.mapB[step][note] = Math.tanh(amp);
+    var gray = Math.floor(constrain(200.0 * amp, 0.0, 200.0));
 
     return gray;
   }
