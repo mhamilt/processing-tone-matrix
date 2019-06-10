@@ -10,7 +10,15 @@ var osc_bank = [];
 var delay = new p5.Delay();
 //------------------------------------------------------------------------------
 var s = note.length;
-var screensize = 3 * ($(window).height() < $(window).width() ? $(window).height() : $(window).width()) / 5;
+var screensize
+if (typeof fullscreenMode != "undefined")
+{
+  screensize = ($(window).width() < $(window).height()) ? $(window).width() : $(window).height();
+}
+else
+{
+  screensize = (4 * $("#sketch-holder").width()) / 5;
+}
 //------------------------------------------------------------------------------
 // Grid Vars
 var spacer = screensize / (4 * s);
@@ -29,11 +37,30 @@ var drawStyle; // are we adding or removing blocks
 //------------------------------------------------------------------------------
 function windowResized()
 {
-  screensize = 3 * (windowWidth < windowHeight ? windowWidth : windowHeight) / 5;
+  if (typeof fullscreenMode != "undefined")
+  {
+    screensize = ($(window).width() < $(window).height()) ? $(window).width() : $(window).height();
+    var x = (windowWidth - width) / 2;
+    var y = (windowHeight - height) / 2;
+    canvas.position(x, y);
+  }
+  else
+  {
+    screensize = (4 * $("#sketch-holder").width()) / 5;
+  }
   spacer = screensize / (4 * s);
   dotSize = (screensize / s) - (spacer);
   glow_size = dotSize + (spacer * 4);
   glow_rect_size = (dotSize + spacer) / 1.1;
+  glow_rect = createGraphics(glow_size, glow_size, P2D);
+  glow_rect.background(0, 0);
+  glow_rect.fill(255, 255);
+  glow_rect.rectMode(CENTER);
+  glow_rect.rect(glow_size / 2, glow_size / 2, glow_rect_size, glow_rect_size);
+  glow_rect.filter(BLUR, 4);
+  glow_rect.loadPixels();
+  glow_rect.updatePixels();
+  glow_rect.filter(DILATE);
   resizeCanvas(screensize, screensize);
 }
 //------------------------------------------------------------------------------
@@ -70,6 +97,12 @@ function setup()
 {
   var canvas = createCanvas(screensize + spacer, screensize + spacer, P2D);
   canvas.parent('sketch-holder');
+  if (typeof fullscreenMode != "undefined")
+  {
+    var x = (windowWidth - width) / 2;
+    var y = (windowHeight - height) / 2;
+    canvas.position(x, y);
+  }
 
   glow_rect = createGraphics(glow_size, glow_size, P2D);
   glow_rect.background(0, 0);
