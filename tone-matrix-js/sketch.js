@@ -8,12 +8,14 @@ var sustain = 0.707;
 var release = 0.2;
 var osc_bank = [];
 var delay = new p5.Delay();
+var canvas;
 //------------------------------------------------------------------------------
 var s = note.length;
 var screensize
 if (typeof fullscreenMode != "undefined")
 {
   screensize = ($(window).width() < $(window).height()) ? $(window).width() : $(window).height();
+  screensize *= 4.0/5.0;
 }
 else
 {
@@ -40,9 +42,11 @@ function windowResized()
   if (typeof fullscreenMode != "undefined")
   {
     screensize = ($(window).width() < $(window).height()) ? $(window).width() : $(window).height();
+    screensize *= 4.0/5.0;
     var x = (windowWidth - width) / 2;
     var y = (windowHeight - height) / 2;
     canvas.position(x, y);
+    console.log(screensize);
   }
   else
   {
@@ -61,7 +65,7 @@ function windowResized()
   glow_rect.loadPixels();
   glow_rect.updatePixels();
   glow_rect.filter(DILATE);
-  resizeCanvas(screensize, screensize);
+  resizeCanvas(screensize + spacer, screensize + spacer);
 }
 //------------------------------------------------------------------------------
 function midi2Hz(midiNoteNumber)
@@ -95,7 +99,7 @@ function playSound()
 //------------------------------------------------------------------------------
 function setup()
 {
-  var canvas = createCanvas(screensize + spacer, screensize + spacer, P2D);
+  canvas = createCanvas(screensize + spacer, screensize + spacer, P2D);
   canvas.parent('sketch-holder');
   if (typeof fullscreenMode != "undefined")
   {
