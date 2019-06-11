@@ -14,7 +14,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.sound.min.js"></script>
-
+    <script>
+      var fullscreenMode = true;
+    </script>
     <script src="tone-matrix-js/ripple.js"></script>
     <script src="tone-matrix-js/pattern.js"></script>
     <script src="tone-matrix-js/input-functions.js"></script>
@@ -23,13 +25,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <style>
-      html,
       body {
         overflow: hidden;
-      }
-
-      body {
-        position: fixed;
       }
     </style>
     <meta charset="utf-8" />
@@ -38,10 +35,8 @@
 
   <body>
     <div id="sketch-holder" align="center"></div>
-    <!-- <script src="js/sketch.js"></script> -->
     <script src="tone-matrix-js/sketch.js"></script>
     <script>
-      var fullscreenMode = true;
       document.ontouchmove = function(e)
       {
         e.preventDefault();
