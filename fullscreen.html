@@ -17,6 +17,11 @@
     <script>
       var fullscreenMode = true;
       window.addEventListener('touchmove', function() {})
+      document.ontouchmove = function(e)
+      {
+        e.preventDefault();
+      }
+
       document.addEventListener('touchmove', function()
       {
         e.preventDefault();
@@ -46,19 +51,26 @@
     <div id="sketch-holder" align="center"></div>
     <script src="tone-matrix-js/sketch.js"></script>
     <script>
-      document.ontouchmove = function(e)
+      var canvas_dom = document.getElementById('sketch-holder'); // make this your canvas DOM element
+      console.log("hello")
+      canvas_dom.addEventListener("touchstart", function(event)
       {
-        e.preventDefault();
-      }
-      document.body.addEventListener('touchmove', preventDefault,
+        event.preventDefault()
+      })
+      canvas_dom.addEventListener("touchmove", function(event)
       {
-        passive: false
-      });
-      document.body.ontouchend = (e) =>
+        event.preventDefault()
+      })
+      canvas_dom.addEventListener("touchend", function(event)
       {
-        e.preventDefault();
-      };
-      var fixed = document.getElementById('fixed');
+        event.preventDefault()
+      })
+      canvas_dom.addEventListener("touchcancel", function(event)
+      {
+        event.preventDefault()
+      })
+
+      var fixed = document.getElementById('sketch-holder');
 
       fixed.addEventListener('sketch-holder', function(e)
       {
