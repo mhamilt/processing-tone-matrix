@@ -16,6 +16,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.sound.min.js"></script>
     <script>
       var fullscreenMode = true;
+      document.ontouchmove = function(e)
+      {
+        e.preventDefault();
+      }
+      document.body.addEventListener('touchmove', preventDefault,
+      {
+        passive: false
+      });
     </script>
     <script src="tone-matrix-js/ripple.js"></script>
     <script src="tone-matrix-js/pattern.js"></script>
