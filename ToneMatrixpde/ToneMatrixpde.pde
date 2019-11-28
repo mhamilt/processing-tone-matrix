@@ -6,8 +6,9 @@ int size = 850;
 //------------------------------------------------------------------------------------
 // Grid Vars
 int spacer = size/(4*s);
-int[] pattern = new int[s]; 
+int[] pattern = new int[s];
 int dotSize = (size/s)-(spacer);
+PGraphics glowRect;
 //------------------------------------------------------------------------------------
 // Sound Vars
 private static final int[] note = {96, 93, 91, 89, 86, 84, 81, 79, 77, 74, 72, 69, 67, 65, 62, 60};
@@ -29,7 +30,7 @@ int bpm;
 // animation variables
 float[] pulseMap = new float[framesPerBeat]; // coefficients during beat pulse animations
 int pa = 0; // pulse animation index;
-float rc = 0.85;
+float rc = 0.9;
 //------------------------------------------------------------------------------------
 int initialBlockCount = 10;
 void settings()
@@ -39,11 +40,26 @@ void settings()
 //------------------------------------------------------------------------------------
 void setup()
 {
+
+  int glow_size = dotSize + (spacer * 4);
+  int glow_rect_size = int((dotSize + spacer) / 1.1);
+  glowRect = createGraphics(glow_size, glow_size);
+  glowRect.beginDraw();
+  glowRect.background(0, 0);
+  glowRect.fill(255, 200);
+  glowRect.rectMode(CENTER);
+  glowRect.rect(glow_size / 2, glow_size / 2, glow_rect_size, glow_rect_size);
+  glowRect.filter(BLUR, 4);
+  glowRect.loadPixels();
+  glowRect.updatePixels();
+  glowRect.filter(DILATE);
+
+
   background(0);
   stroke(50);
-  fill(255);  
+  fill(255);
   for (int i = 0; i < 16; i++)
-  {   
+  {
     pattern[i] = (1 << i);
   }
 
@@ -67,14 +83,16 @@ void setup()
 }
 //------------------------------------------------------------------------------------
 void draw()
-{  
+{
   background(0);
   setPattern();
 
   if (frameCount < initialBlockCount)
   {
+    pat.setRandomNote();
   } else if ((frameCount % framesPerBeat) == 0)
   {
+
     if (beat == 0)
     {
       pat.setRandomNote();
@@ -97,7 +115,7 @@ void draw()
 
 //------------------------------------------------------------------------------------
 float midi2Hz(int midiNoteNumber)
-{ 
+{
   return pow(2, float(midiNoteNumber - 69)/12.0) * 440.0f;
 }
 
@@ -111,10 +129,11 @@ void playSound()
   for (int i = 0; i < 16; i++)
   {
     if (pat.getStep(beat, i))
-    {      
+    {
+      sine[i].stop();
       env[i].play(sine[i], attackTime, sustainTime, sustainLevel, releaseTime);
     }
-  }       
+  }
   beat++;
   beat %= note.length;
 }

@@ -1,5 +1,7 @@
 void setPattern()
 {  
+  //glowRect.tint(255, map(frameCount % framesPerBeat,0,framesPerBeat,128,255));
+  tint(255, map((frameCount) % framesPerBeat,0,framesPerBeat-1,0,255));
   for (int step = 0; step < 16; ++step)
   {         
     int stepColor = ((step == beat) && (pa < pulseMap.length)) ? int(pulseMap[pa] * 50.0) : 0;
@@ -15,6 +17,12 @@ void setPattern()
         fill(40 + rip);
       }
       rect((step * (width/16))+ spacer, (note * (width/16)) + spacer, dotSize, dotSize);
+
+      if (pat.getStep(step, note) && (step == beat))
+      { 
+        
+        image(glowRect, (step * (width / s)) - spacer, (note * (width / s)) - spacer);
+      }
     }
   }
   mapSwap();
@@ -25,7 +33,7 @@ void initPulseMap()
 {
   for (int i = 0; i < pulseMap.length; ++i)
   {
-    pulseMap[i] = sin(float(i)*PI/float(framesPerBeat));    
+    pulseMap[i] = sin(float(i)*PI/float(framesPerBeat));
   }
 }
 

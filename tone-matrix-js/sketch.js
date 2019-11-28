@@ -1,4 +1,9 @@
 //------------------------------------------------------------------------------
+if ('serviceWorker' in navigator)
+{
+  navigator.serviceWorker.register('/js/service-worker.js');   // register service worker
+}
+//------------------------------------------------------------------------------
 //osc vars
 let note = [96, 93, 91, 89, 86, 84, 81, 79, 77, 74, 72, 69, 67, 65, 62, 60];
 var gain = 0.3;
