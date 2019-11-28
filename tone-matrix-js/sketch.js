@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 if ('serviceWorker' in navigator)
 {
-  navigator.serviceWorker.register('/tone-matrix-js/service-worker.js');   // register service worker
+  navigator.serviceWorker.register('/processing-tone-matrix/tone-matrix-js/service-worker.js');   // register service worker
 }
 //------------------------------------------------------------------------------
 //osc vars
