@@ -3,12 +3,12 @@
   "name": "ToneMatrix",
   "icons": [
     {
-      "src": "/images/icon_192x192.png",
+      "src": "/processing-tone-matrix/images/icon_192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/images/icon_512x512.png",
+      "src": "/processing-tone-matrix/images/icon_512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
