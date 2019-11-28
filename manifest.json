@@ -3,9 +3,24 @@
   "name": "ToneMatrix",
   "icons": [
     {
+      "src": "/processing-tone-matrix/images/icon_72x72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/processing-tone-matrix/images/icon_152x152.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    },
+    {
       "src": "/processing-tone-matrix/images/icon_192x192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "/processing-tone-matrix/images/icon_256x256.png",
+      "type": "image/png",
+      "sizes": "256x256"
     },
     {
       "src": "/processing-tone-matrix/images/icon_512x512.png",
