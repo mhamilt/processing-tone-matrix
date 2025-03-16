@@ -1,12 +1,13 @@
 import processing.sound.*;
-
+//------------------------------------------------------------------------------------
 final int s = 16;
 int[][] x = new int[s][s];
-int size = 850;
+int size = 450;
+int margin = 0;
 //------------------------------------------------------------------------------------
 // Grid Vars
-int spacer = size/(4*s);
-int[] pattern = new int[s]; 
+  int spacer = size/(4*s);
+int[] pattern = new int[s];
 int dotSize = (size/s)-(spacer);
 //------------------------------------------------------------------------------------
 // Sound Vars
@@ -14,16 +15,16 @@ private static final int[] note = {96, 93, 91, 89, 86, 84, 81, 79, 77, 74, 72, 6
 Env[] env;
 SinOsc[] sine;
 Delay[] delay;
-float attackTime = 0.004;
-float sustainTime = 0.004;
-float sustainLevel = 0.5;
-float releaseTime = 0.7;
+float attackTime = 0.001;
+float sustainTime = 0.001;
+float sustainLevel = 0.75;
+float releaseTime = 0.2;
 //------------------------------------------------------------------------------------
-Pattern pat = new Pattern();
+ToneMatrix pat = new ToneMatrix();
 //------------------------------------------------------------------------------------
 // beat vars
 int beat = 0;
-int framesPerBeat = 20;
+int framesPerBeat = 7;
 int bpm;
 //------------------------------------------------------------------------------------
 // animation variables
@@ -34,16 +35,18 @@ float rc = 0.85;
 int initialBlockCount = 10;
 void settings()
 {
-  size(size+spacer, size+spacer);
+  //size(size+spacer, size+spacer);
+  fullScreen();
 }
 //------------------------------------------------------------------------------------
 void setup()
 {
+
   background(0);
   stroke(50);
-  fill(255);  
+  fill(255);
   for (int i = 0; i < 16; i++)
-  {   
+  {
     pattern[i] = (1 << i);
   }
 
@@ -67,9 +70,10 @@ void setup()
 }
 //------------------------------------------------------------------------------------
 void draw()
-{  
+{
   background(0);
-  setPattern();
+  //setPattern();
+  pat.draw(beat);
 
   if (frameCount < initialBlockCount)
   {
@@ -97,7 +101,7 @@ void draw()
 
 //------------------------------------------------------------------------------------
 float midi2Hz(int midiNoteNumber)
-{ 
+{
   return pow(2, float(midiNoteNumber - 69)/12.0) * 440.0f;
 }
 
@@ -112,9 +116,10 @@ void playSound()
   {
     if (pat.getStep(beat, i))
     {      
+      sine[i].pan(map(beat, 0, 15,-0.5, 0.5));
       env[i].play(sine[i], attackTime, sustainTime, sustainLevel, releaseTime);
     }
-  }       
+  }
   beat++;
   beat %= note.length;
 }
