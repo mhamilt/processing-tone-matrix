@@ -2,11 +2,11 @@ import processing.sound.*;
 //------------------------------------------------------------------------------------
 final int s = 16;
 int[][] x = new int[s][s];
-int size = 450;
+int size = 650;
 int margin = 0;
 //------------------------------------------------------------------------------------
 // Grid Vars
-  int spacer = size/(4*s);
+int spacer = size/(4*s);
 int[] pattern = new int[s];
 int dotSize = (size/s)-(spacer);
 //------------------------------------------------------------------------------------
@@ -36,7 +36,8 @@ int initialBlockCount = 10;
 void settings()
 {
   //size(size+spacer, size+spacer);
-  fullScreen();
+  pixelDensity(2);
+  fullScreen(P3D);
 }
 //------------------------------------------------------------------------------------
 void setup()
@@ -59,7 +60,7 @@ void setup()
   {
     sine[i] = new SinOsc(this);
     sine[i].freq(midi2Hz(note[i]));
-    sine[i].amp(0.303);
+    sine[i].amp(0.012);
 
     delay[i] = new Delay(this);
     delay[i].process(sine[i], 0.1, 0.1);
@@ -72,7 +73,6 @@ void setup()
 void draw()
 {
   background(0);
-  //setPattern();
   pat.draw(beat);
 
   if (frameCount < initialBlockCount)
@@ -93,9 +93,9 @@ void draw()
 
     playSound();
   }
-  if ((frameCount % framesPerBeat) == (framesPerBeat-1))
-    pa = 0;
-  pa++;
+  //if ((frameCount % framesPerBeat) == (framesPerBeat-1))
+  //  pa = 0;
+  //pa++;
 }
 
 
@@ -107,21 +107,23 @@ float midi2Hz(int midiNoteNumber)
 
 void playSound()
 {
-  if (beat == 0)
-  {
-    //pat.setRandomBlock();
-  }
-
   for (int i = 0; i < 16; i++)
   {
     if (pat.getStep(beat, i))
-    {      
-      sine[i].pan(map(beat, 0, 15,-0.5, 0.5));
-      env[i].play(sine[i], attackTime, sustainTime, sustainLevel, releaseTime);
+    {
+      sine[i].pan(map(beat, 0, 15, -0.707, 0.707));
+      if ((beat%3) == 0)
+      {
+        env[i].play(sine[i], attackTime, sustainTime, sustainLevel, releaseTime);
+      } else
+      {
+        env[i].play(sine[i], attackTime/2, sustainTime/2, sustainLevel, releaseTime/2);
+      }
     }
   }
   beat++;
-  beat %= note.length;
+  if (beat == note.length)
+    beat = 0;
 }
 
 
