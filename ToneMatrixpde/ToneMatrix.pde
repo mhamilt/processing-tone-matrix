@@ -26,6 +26,8 @@ class ToneMatrix
   //------------------------------------------------------------------------------------
   public boolean getStep(int beat, int note)
   {
+    if (beat > 15 || beat < 0 || note > 15 || note < 0)
+      return false;
     return steps[beat][note];
   }
   //------------------------------------------------------------------------------------
@@ -186,7 +188,6 @@ class ToneMatrix
 
     for (int beat = 0; beat < 16; ++beat)
     {
-      //int stepColor = ((beat == b) && (pa < pulseMap.length)) ? int(pulseMap[pa] * 100.0) : 0;
 
       for (int note = 0; note < 16; ++note)
       {
@@ -194,11 +195,12 @@ class ToneMatrix
         if (pat.getStep(beat, note))
         {
           fill(((beat == b)?255:150));
-        } else
+        } 
+        else
         {
           fill(40 + rip);
         }
-        rect((beat * (size/16)) + spacer, (note * (size/16)) + spacer, dotSize, dotSize);
+        rect((beat * (size/16)) + spacer, (note * (size/16)) + spacer, dotSize, dotSize, 3);
       }
     }
 
